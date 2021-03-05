@@ -10,7 +10,7 @@ class LoginForm extends Component {
                 <div>
                     <div className="row mt-5">
                         <div className="col-md-3 mx-auto">
-                        <form className = 'card p-2'>
+                        <form class = 'card p-2'>
                                 <div className="form-group">
                                     <label htmlFor="exampleInputEmail1">
                                         Email address

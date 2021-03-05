@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import Main from './Router';
 
-import { BrowserRouter , Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter , Route } from "react-router-dom";
 
 import Header from "./Header/Header";
 import Register from "../views/Register/Register";
 import Login from '../views/Login/Login'
+import Dashboard from '../views/User/Dashboard'
+
 function App() {
     return (
         <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
                 <Header />
                 <Route path="/register"  component={Register} />
                 <Route path="/login"  component={Login} />
+                <Route path="/dashboard"  component={Dashboard} />
             </div>
         </BrowserRouter>
     );

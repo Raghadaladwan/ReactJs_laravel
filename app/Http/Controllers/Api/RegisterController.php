@@ -15,7 +15,7 @@ class RegisterController extends Controller
 {
     public function register(Request $request)
     {
-       
+
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'max:255', 'unique:users'],
             'name' => 'required',
@@ -29,7 +29,7 @@ class RegisterController extends Controller
         } else {
             $role = 'Customer';
         }
-    
+
 
         //STORE IN DB
         $params = [
@@ -38,7 +38,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->get('password')),
             'role' => $role,
         ];
-        
+
         $user = User::create($params);
 
         $token = JWTAuth::fromUser($user);
@@ -50,6 +50,8 @@ class RegisterController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'role' => $user['role']
+
         ]);
     }
 }

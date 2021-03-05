@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 class RegisterForm extends Component {
     state = {
         name: "",
         email: "",
         password: "",
-        role: "",
-        isLoading: "",
+        role: "2",
+        isLoading: false,
+        redirect: false,
         errors: {},
     };
 
@@ -41,25 +43,55 @@ class RegisterForm extends Component {
             newUser.role !== ""
         ) {
             await axios
-                .post("http://localhost:8003/api/auth/register", { newUser })
+                .post("http://127.0.0.1:8005/api/auth/register", {
+                    name: this.state.name,
+                    email: this.state.email,
+                    password: this.state.password,
+                    role: this.state.role,
+                })
                 .then((response) => {
-                    console.log("Registered");
-                    this.props.history.push("/login");
-                });
+                    console.log(response.data.access_token !== "");
+                    if (response.data.access_token !== "") {
+                        console.log("20020000000000000000000");
+                        this.setState({
+                            isLoading: true,
+                            redirect: true,
+                        });
+                    
+                    }
+                })
+                // this.setState({ message_Name: "You shoud add your name" })
+                .catch((err) =>
+                    this.setState({ message: err.response.data.errors })
+                );
         }
     };
     onChange = (event) => {
+        console.log(event.target.value);
         this.setState({ [event.target.name]: event.target.value });
+    };
+    handleRadioChange = (event) => {
+        console.log(event.target.value);
+        this.setState({
+            role: event.target.value,
+        });
     };
 
     render() {
-        const { onChange, registerSubmit } = this;
+        if (this.state.redirect) {
+            return <Redirect to="/dashboard" />;
+        }
+        const { onChange, registerSubmit, handleRadioChange } = this;
 
         return (
             <div>
                 <div className="row mt-5">
                     <div className="col-md-4 mx-auto">
-                        <form class="card p-2" onSubmit={registerSubmit}>
+                        <form
+                            class="card p-2"
+                            noValidate
+                            onSubmit={registerSubmit}
+                        >
                             <div className="form-group">
                                 <label htmlFor="name">Your Name</label>
                                 <input
@@ -132,10 +164,13 @@ class RegisterForm extends Component {
                                             <input
                                                 className="form-check-input"
                                                 type="radio"
-                                                name="exampleRadios"
+                                                name="Role"
                                                 id="Radios1"
-                                                value="option1"
-                                                checked
+                                                value="1"
+                                                checked={
+                                                    this.state.role === "1"
+                                                }
+                                                onChange={handleRadioChange}
                                             />
                                             <label
                                                 className="form-check-label"
@@ -150,9 +185,13 @@ class RegisterForm extends Component {
                                             <input
                                                 className="form-check-input"
                                                 type="radio"
-                                                name="exampleRadios"
+                                                name="Roule"
                                                 id="Radios2"
-                                                value="option2"
+                                                value="2"
+                                                checked={
+                                                    this.state.role === "2"
+                                                }
+                                                onChange={handleRadioChange}
                                             />
                                             <label
                                                 className="form-check-label"
@@ -163,6 +202,15 @@ class RegisterForm extends Component {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div
+                                className={
+                                    this.state.message
+                                        ? "alert alert-dark"
+                                        : null
+                                }
+                            >
+                                {this.state.message}
                             </div>
 
                             <button type="submit" className="btn btn-primary">
