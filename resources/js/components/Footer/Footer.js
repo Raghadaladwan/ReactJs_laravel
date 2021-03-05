@@ -6,20 +6,10 @@ const Footer = () => {
             <div  className="text-center text-md-left">
                 <div>
                     <div md="2">
-                        <h5 className="title text-light">Footer Content</h5>
+                        <h5 className="title text-light pl-5">Footer Content</h5>
                    
                     </div>
-                    <div md="6">
-                        <h5 className="title text-light">Links</h5>
-                        <ul>
-                            <li className="list-unstyled text-light">
-                                <a href="#!">Link 1</a>
-                            </li>
-                            <li className="list-unstyled text-light">
-                                <a href="#!">Link 2</a>
-                            </li>
-                        </ul>
-                    </div>
+                   
                 </div>
             </div>
             <div className="footer-copyright text-center py-3 text-light " >

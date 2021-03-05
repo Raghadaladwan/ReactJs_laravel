@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 class LoginForm extends Component {
     state = {
@@ -6,6 +7,9 @@ class LoginForm extends Component {
         password: "",
         redirect: false,
         isLoading: false,
+        role: "",
+        user_id: "",
+        token:"",
         errors: {},
     };
 
@@ -29,38 +33,43 @@ class LoginForm extends Component {
         }
         if (user.email !== "" && user.password !== "") {
             await axios
-                .post("http://127.0.0.1:8005/api/auth/login", {
+                .post("http://127.0.0.1:8001/api/auth/login", {
                     email: this.state.email,
                     password: this.state.password,
                 })
                 .then((response) => {
-                    console.log(response.data.access_token !== "");
                     if (response.data.access_token !== "") {
-                        console.log("20020000000000000000000");
                         this.setState({
                             isLoading: true,
                             redirect: true,
+                            role: response.data.role,
+                            user_id: response.data.user_id,
+                            token : response.data.access_token
                         });
                     }
                 })
-                // this.setState({ message_Name: "You shoud add your name" })
                 .catch((err) =>
                     this.setState({ errors: err.response.data.errors })
                 );
         }
     };
     onChange = (event) => {
-        console.log(event.target.value);
         this.setState({ [event.target.name]: event.target.value });
     };
 
     render() {
         if (this.state.redirect) {
             return (
+                // this.props.history.push("/loginpage");
                 <Redirect
                     to={{
                         pathname: "/dashboard",
-                        state: { isLoading: this.state.isLoading },
+                        state: {
+                            isLoading: this.state.isLoading,
+                            role: this.state.role,
+                            user_id: this.state.user_id,
+                            token:this.state.token
+                        },
                     }}
                 />
             );
@@ -71,7 +80,7 @@ class LoginForm extends Component {
                 <div>
                     <div className="row mt-5">
                         <div className="col-md-3 mx-auto">
-                            <form class="card p-2" onSubmit={loginSubmit}>
+                            <form className="card p-2" onSubmit={loginSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="email">Email address</label>
                                     <input
@@ -95,9 +104,7 @@ class LoginForm extends Component {
                                     {this.state.message_Email}
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="password">
-                                        Password
-                                    </label>
+                                    <label htmlFor="password">Password</label>
                                     <input
                                         type="password"
                                         className="form-control"
@@ -108,14 +115,14 @@ class LoginForm extends Component {
                                     />
                                 </div>
                                 <div
-                                className={
-                                    this.state.message_Password
-                                        ? "alert alert-dark"
-                                        : null
-                                }
-                            >
-                                {this.state.message_Password}
-                            </div>
+                                    className={
+                                        this.state.message_Password
+                                            ? "alert alert-dark"
+                                            : null
+                                    }
+                                >
+                                    {this.state.message_Password}
+                                </div>
 
                                 <button
                                     type="submit"

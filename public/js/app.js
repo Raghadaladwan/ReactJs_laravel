@@ -2095,34 +2095,14 @@ var Footer = function Footer() {
     className: "font-small pt-4 mt-4 fixed-bottom navbar-dark bg-dark",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "text-center text-md-left",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           md: "2",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-            className: "title text-light",
+            className: "title text-light pl-5",
             children: "Footer Content"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-          md: "6",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
-            className: "title text-light",
-            children: "Links"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-              className: "list-unstyled text-light",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
-                href: "#!",
-                children: "Link 1"
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-              className: "list-unstyled text-light",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
-                href: "#!",
-                children: "Link 2"
-              })
-            })]
-          })]
-        })]
+        })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "footer-copyright text-center py-3 text-light ",
@@ -2206,6 +2186,19 @@ function Header() {
               children: "(current)"
             })]
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+          to: "dashboard",
+          style: {
+            color: "inherit",
+            textDecoration: "inherit"
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
+            className: "nav-item active nav-link px-3",
+            children: ["Dashboard ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              className: "sr-only",
+              children: "(current)"
+            })]
+          })
         })]
       })
     })]
@@ -2230,6 +2223,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -2266,6 +2260,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var LoginForm = /*#__PURE__*/function (_Component) {
   _inherits(LoginForm, _Component);
 
@@ -2287,6 +2282,9 @@ var LoginForm = /*#__PURE__*/function (_Component) {
       password: "",
       redirect: false,
       isLoading: false,
+      role: "",
+      user_id: "",
+      token: "",
       errors: {}
     });
 
@@ -2321,22 +2319,20 @@ var LoginForm = /*#__PURE__*/function (_Component) {
                 }
 
                 _context.next = 7;
-                return axios.post("http://127.0.0.1:8005/api/auth/login", {
+                return axios.post("http://127.0.0.1:8001/api/auth/login", {
                   email: _this.state.email,
                   password: _this.state.password
                 }).then(function (response) {
-                  console.log(response.data.access_token !== "");
-
                   if (response.data.access_token !== "") {
-                    console.log("20020000000000000000000");
-
                     _this.setState({
                       isLoading: true,
-                      redirect: true
+                      redirect: true,
+                      role: response.data.role,
+                      user_id: response.data.user_id,
+                      token: response.data.access_token
                     });
                   }
-                }) // this.setState({ message_Name: "You shoud add your name" })
-                ["catch"](function (err) {
+                })["catch"](function (err) {
                   return _this.setState({
                     errors: err.response.data.errors
                   });
@@ -2356,8 +2352,6 @@ var LoginForm = /*#__PURE__*/function (_Component) {
     }());
 
     _defineProperty(_assertThisInitialized(_this), "onChange", function (event) {
-      console.log(event.target.value);
-
       _this.setState(_defineProperty({}, event.target.name, event.target.value));
     });
 
@@ -2368,14 +2362,21 @@ var LoginForm = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       if (this.state.redirect) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Redirect, {
-          to: {
-            pathname: "/dashboard",
-            state: {
-              isLoading: this.state.isLoading
+        return (
+          /*#__PURE__*/
+          // this.props.history.push("/loginpage");
+          (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Redirect, {
+            to: {
+              pathname: "/dashboard",
+              state: {
+                isLoading: this.state.isLoading,
+                role: this.state.role,
+                user_id: this.state.user_id,
+                token: this.state.token
+              }
             }
-          }
-        });
+          })
+        );
       }
 
       var onChange = this.onChange,
@@ -2387,7 +2388,7 @@ var LoginForm = /*#__PURE__*/function (_Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "col-md-3 mx-auto",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
-                "class": "card p-2",
+                className: "card p-2",
                 onSubmit: loginSubmit,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                   className: "form-group",
@@ -2564,7 +2565,7 @@ var RegisterForm = /*#__PURE__*/function (_Component) {
                 }
 
                 _context.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8005/api/auth/register", {
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/auth/register", {
                   name: _this.state.name,
                   email: _this.state.email,
                   password: _this.state.password,
@@ -2573,8 +2574,6 @@ var RegisterForm = /*#__PURE__*/function (_Component) {
                   console.log(response.data.access_token !== "");
 
                   if (response.data.access_token !== "") {
-                    console.log("20020000000000000000000");
-
                     _this.setState({
                       isLoading: true,
                       redirect: true
@@ -2640,7 +2639,7 @@ var RegisterForm = /*#__PURE__*/function (_Component) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "col-md-4 mx-auto",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
-              "class": "card p-2",
+              className: "card p-2",
               noValidate: true,
               onSubmit: registerSubmit,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -2728,9 +2727,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2774,26 +2793,341 @@ var Dashboard = /*#__PURE__*/function (_Component) {
 
     _this = _super.call.apply(_super, [this].concat(args));
 
-    _defineProperty(_assertThisInitialized(_this), "state", {});
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      complaint: [],
+      role: "",
+      title: "",
+      description: "",
+      urgent: "1",
+      user_id: ''
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onChange", function (event) {
+      _this.setState(_defineProperty({}, event.target.name, event.target.value));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "addComplaint", function (event) {
+      event.preventDefault();
+      var newComplaint = {
+        title: event.target["title"].value,
+        description: event.target["description"].value,
+        urgent: event.target["urgent"].value
+      };
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "UpdateComplaint", function (event) {
+      event.preventDefault();
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleRadioChange", function (event) {
+      console.log(event.target.value);
+
+      _this.setState({
+        urgent: event.target.value
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onSubmit", /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(event) {
+        var update;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                event.preventDefault();
+                update = {
+                  id: _this.state.user_id,
+                  title: _this.state.title,
+                  description: _this.state.description,
+                  urgent: _this.state.urgent
+                };
+
+                if (update.title === "") {
+                  _this.setState({
+                    message_title: "You shoud inter your title"
+                  });
+                }
+
+                if (update.description === "") {
+                  _this.setState({
+                    message_description: "Password is description"
+                  });
+                }
+
+                if (!(update.title !== "" && update.description !== "")) {
+                  _context.next = 7;
+                  break;
+                }
+
+                _context.next = 7;
+                return axios.post("http://127.0.0.1:8001/api/store/complaint", {
+                  update: update
+                }).then(function (response) {
+                  _this.setState(function (prvState) {
+                    return {
+                      complaint: _toConsumableArray(prvState.response.data)
+                    };
+                  });
+                })["catch"](function (err) {
+                  return _this.setState({
+                    errors: err.response.data.errors
+                  });
+                });
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
 
     return _this;
   }
 
   _createClass(Dashboard, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios.post("http://127.0.0.1:8001/api/complaint", {
+        id: this.props.location.state.user_id,
+        role: this.props.location.state.role,
+        user_id: this.props.location.state.user_id
+      }).then(function (response) {
+        _this2.setState({
+          complaint: response.data.data,
+          role: _this2.props.location.state.role
+        });
+      })["catch"](function (err) {
+        return console.log(err.response.data.errors);
+      }); // axios
+      // .get("http://127.0.0.1:8001/api/complaint", { headers: { Authorization: `Bearer ${this.location.state.token}` } })
+      // .then((res) => {
+      //   console.log("hello" + res);
+      //   try {
+      //     dispatch({
+      //       type: FETCH_PRODUCTS,
+      //       payload: res.data// Dummy data
+      //     });
+      //     console.log("payload");
+      //     console.log(payload);
+      //   } catch (err) {
+      //     console.log("error" + err);
+      //     console.log(res.data);
+      //   }
+      // });
+    }
+  }, {
+    key: "renderTableData",
+    value: function renderTableData() {
+      var _this3 = this;
+
+      return this.state.complaint.map(function (complaint, index) {
+        var id = complaint.id,
+            title = complaint.title,
+            status = complaint.status,
+            urgent = complaint.urgent; //destructuring
+
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: index + 1
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: title
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: status == 1 ? "pending" : status == 2 ? "resolved" : "dismissed"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            style: {
+              color: urgent == "1" ? "red" : "none"
+            },
+            children: urgent == "1" ? "Urgent" : "Can wait"
+          }), _this3.state.role == "Admin" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              type: "button",
+              className: "btn bg-success m-1",
+              "aria-label": "Left Align",
+              children: "Solve"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              type: "button",
+              className: "btn bg-danger m-1 ",
+              "aria-label": "Left Align",
+              children: "Dismissed"
+            })]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              type: "button",
+              className: "btn bg-primary",
+              "aria-label": "Left Align",
+              children: "Edit"
+            })
+          })]
+        }, id);
+      });
+    }
+  }, {
+    key: "renderTableHeader",
+    value: function renderTableHeader() {
+      var header = Object.keys(this.state.complaint);
+      return header.map(function (key, index) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+          scope: "col",
+          children: key.toUpperCase()
+        }, index);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
-            children: "HHHHHHHHHHHHHHHHHHHHH"
-          })
+      var addComplaint = this.addComplaint,
+          deleteComponent = this.deleteComponent,
+          onChange = this.onChange,
+          handleRadioChange = this.handleRadioChange,
+          onSubmit = this.onSubmit;
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: this.state.role == "Admin" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: " row h-150 justify-content-center",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h1", {
+              className: "pt-5",
+              children: "This is all your complaint"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "row ",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "col ",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("table", {
+                className: "table table-striped",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+                  children: this.renderTableData()
+                })
+              })
+            })
+          })]
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "pt-5 pl-5",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h1", {
+              children: "This is all your complaint"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "row pl-5 ",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "col col-lg-7",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("table", {
+                className: "table table-striped",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+                  children: this.renderTableData()
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "col col-lg-4",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("form", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+                    className: "card p-2",
+                    onSubmit: onSubmit,
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                      className: "form-group",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                        htmlFor: "title",
+                        children: "Complaint title"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                        type: "text",
+                        className: "form-control",
+                        id: "title",
+                        name: "title",
+                        "aria-describedby": "emailHelp",
+                        placeholder: "Enter title",
+                        value: this.state.title,
+                        onChange: onChange
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                        className: this.state.message_title ? "alert alert-dark" : null,
+                        children: this.state.message_title
+                      })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                      className: "mb-3",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                        htmlfor: "description",
+                        className: "form-label",
+                        children: "Tell Us More"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+                        type: "text",
+                        className: "form-control",
+                        id: "description",
+                        name: "description",
+                        rows: "3",
+                        placeholder: "Enter complaint description",
+                        value: this.state.description,
+                        onChange: onChange
+                      })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                      className: this.state.message_description ? "alert alert-dark" : null,
+                      children: this.state.message_description
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                      className: "form-group container",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                        className: "form-row ",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                          className: "col-3",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                            className: "form-check ",
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                              className: "form-check-input",
+                              type: "radio",
+                              name: "urgent",
+                              id: "Radios1",
+                              value: "1",
+                              checked: this.state.urgent === "1",
+                              onChange: handleRadioChange
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                              className: "form-check-label",
+                              htmlFor: "Radios1",
+                              children: "Urgent"
+                            })]
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                          className: "col-3",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                            className: "form-check",
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                              className: "form-check-input",
+                              type: "radio",
+                              name: "urgent",
+                              id: "Radios2",
+                              value: "2",
+                              checked: this.state.urgent === "2",
+                              onChange: handleRadioChange
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                              className: "form-check-label",
+                              htmlFor: "Radios2",
+                              children: "Unurgent"
+                            })]
+                          })
+                        })]
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                      type: "submit",
+                      className: "btn btn-primary",
+                      children: "Submit"
+                    })]
+                  })
+                })
+              })
+            })]
+          })]
         })
       });
     }
   }]);
 
   return Dashboard;
-}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dashboard);
 

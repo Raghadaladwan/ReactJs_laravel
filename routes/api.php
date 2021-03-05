@@ -30,4 +30,6 @@ Route::group([
     Route::post('register', [RegisterController::class, 'register']);
 });
 
-Route::resource('complaint', ComplaintController::class);
+Route::post('complaint', [ComplaintController::class, 'index']);
+Route::put('resolved/complaint/{complaint}', [ComplaintController::class, 'update']);
+Route::post('store/complaint', [ComplaintController::class, 'store']);

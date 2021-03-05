@@ -40,14 +40,14 @@ function Header() {
                             Login <span className="sr-only">(current)</span>
                         </li>
                     </Link>
-                    {/* <Link
+                    <Link
                         to="dashboard"
                         style={{ color: "inherit", textDecoration: "inherit" }}
                     >
                         <li className="nav-item active nav-link px-3">
                             Dashboard <span className="sr-only">(current)</span>
                         </li>
-                    </Link> */}
+                    </Link>
                 </ul>
             </div>
         </nav>

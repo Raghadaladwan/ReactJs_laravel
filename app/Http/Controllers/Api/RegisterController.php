@@ -25,7 +25,7 @@ class RegisterController extends Controller
         ])->validate();
 
         if ($request->get('role') == 1) {
-            $role = 'Aadmin';
+            $role = 'Admin';
         } else {
             $role = 'Customer';
         }

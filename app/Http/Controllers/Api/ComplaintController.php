@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ComplaintController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Complaint::class, 'complaint');
-    }
 
     /**
      * Display a listing of the resource.
@@ -22,28 +18,15 @@ class ComplaintController extends Controller
      */
     public function index(Request $request)
     {
-        $user = auth('api')->user();
-
-        dd($user);
-        if ($user->role == "Admin") {
-            $all = Complaint::select('id', 'name', 'status')->paginate(10);
+        if ($request->role === "Admin") {
+            $all = Complaint::select('id', 'title', 'status', 'urgent')->paginate(10);
             return $all;
-        } else if ($user->role == "Customer") {
-            $myComplaint = Complaint::select('id', 'name', 'status')
-                ->where('user_id', $user->id)
+        } else if ($request->role === "Customer") {
+            $myComplaint = Complaint::select('id', 'title', 'status', 'urgent')
+                ->where('user_id', $request->id)
                 ->paginate(10);
             return $myComplaint;
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -54,15 +37,12 @@ class ComplaintController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth('api')->user();
-        dd($user);
-        dd($request);
-
+        // $user = auth('api')->user();
+    
         Validator::make($request->all(), [
             'title' =>    'required',
             'description' =>    'required',
             'urgent' => 'required',
-            // 'status' => 'required',
         ])->validate();
 
         if ($request->get('urgent') == 1) {
@@ -72,13 +52,19 @@ class ComplaintController extends Controller
         }
 
         $newComplaint = [
-            'user_id' => $user->id,
+            'user_id' => $request->id,
             'title' => $request['title'],
             'description' => $request['description'],
             'urgent' => $request['urgent'],
             'status' => "1",
         ];
 
+        $addedComplaint =  Complaint::create($newComplaint);
+
+        return response()->json([
+            'message' => 'Done',
+            'data' => $addedComplaint
+        ]);
     }
 
     /**
@@ -93,16 +79,6 @@ class ComplaintController extends Controller
         return $comp;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -113,6 +89,8 @@ class ComplaintController extends Controller
      */
     public function update(Request $request, Complaint $complaint)
     {
+        $user = auth('api')->user();
+
         Validator::make($request->all(), [
             'title' =>    'required',
             'description' =>    'required',
@@ -120,12 +98,13 @@ class ComplaintController extends Controller
             'status' => 'required',
         ])->validate();
 
-        $complaint->update(['title' => $request->title, 'description' => $request->description, 'urgent' => $request->urgent, 'status' => $request->status]);
-
-        return response()->json([
-            'message' => 'Done',
-            'data' => $complaint
-        ]);
+        if (auth('api')->user()->id == $complaint->user_id) {
+            $complaint->update(['title' => $request->title, 'description' => $request->description, 'urgent' => $request->urgent, 'status' => $request->status]);
+            return response()->json([
+                'message' => 'Done',
+                'data' => $complaint
+            ]);
+        }
     }
 
     /**

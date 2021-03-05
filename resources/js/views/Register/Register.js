@@ -43,7 +43,7 @@ class RegisterForm extends Component {
             newUser.role !== "1"
         ) {
             await axios
-                .post("http://127.0.0.1:8005/api/auth/register", {
+                .post("http://127.0.0.1:8000/api/auth/register", {
                     name: this.state.name,
                     email: this.state.email,
                     password: this.state.password,
@@ -52,7 +52,6 @@ class RegisterForm extends Component {
                 .then((response) => {
                     console.log(response.data.access_token !== "");
                     if (response.data.access_token !== "") {
-                        console.log("20020000000000000000000");
                         this.setState({
                             isLoading: true,
                             redirect: true,
@@ -88,7 +87,7 @@ class RegisterForm extends Component {
                 <div className="row mt-5">
                     <div className="col-md-4 mx-auto">
                         <form
-                            class="card p-2"
+                            className="card p-2"
                             noValidate
                             onSubmit={registerSubmit}
                         >
