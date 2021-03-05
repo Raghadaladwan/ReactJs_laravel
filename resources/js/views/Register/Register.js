@@ -40,7 +40,7 @@ class RegisterForm extends Component {
             newUser.name !== "" &&
             newUser.email !== "" &&
             newUser.password !== "" &&
-            newUser.role !== ""
+            newUser.role !== "1"
         ) {
             await axios
                 .post("http://127.0.0.1:8005/api/auth/register", {
@@ -79,7 +79,7 @@ class RegisterForm extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to="/dashboard" />;
+            return <Redirect to={{pathname: "/dashboard", state: { isLoading: this.state.isLoading } }} />;
         }
         const { onChange, registerSubmit, handleRadioChange } = this;
 
@@ -157,7 +157,7 @@ class RegisterForm extends Component {
                                 {this.state.message_Password}
                             </div>
 
-                            <div className="form-group container">
+                            {/* <div className="form-group container">
                                 <div className="form-row ">
                                     <div className="col-3">
                                         <div className="form-check ">
@@ -202,7 +202,7 @@ class RegisterForm extends Component {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div
                                 className={
                                     this.state.message

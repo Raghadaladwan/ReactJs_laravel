@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ComplaintController;
 
 
 
@@ -25,7 +26,8 @@ Route::group([
 ], function ($router) {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('me', [AuthController::class,'me'])->middleware('auth:api');
+    Route::post('me', [AuthController::class, 'me'])->middleware('auth:api');
     Route::post('register', [RegisterController::class, 'register']);
-
 });
+
+Route::resource('complaint', ComplaintController::class);
