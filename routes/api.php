@@ -31,5 +31,5 @@ Route::group([
 });
 
 Route::post('complaint', [ComplaintController::class, 'index']);
-Route::put('resolved/complaint/{complaint}', [ComplaintController::class, 'update']);
+Route::post('resolved/complaint/{complaint}', [ComplaintController::class, 'update']);
 Route::post('store/complaint', [ComplaintController::class, 'store']);

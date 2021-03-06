@@ -95,6 +95,7 @@ class ComplaintController extends Controller
     {
         $user = auth('api')->user();
 
+
         Validator::make($request->all(), [
             'title' =>    'required',
             'description' =>    'required',
@@ -102,13 +103,16 @@ class ComplaintController extends Controller
             'status' => 'required',
         ])->validate();
 
-        if (auth('api')->user()->id == $complaint->user_id) {
-            $complaint->update(['title' => $request->title, 'description' => $request->description, 'urgent' => $request->urgent, 'status' => $request->status]);
-            return response()->json([
-                'message' => 'Done',
-                'data' => $complaint
-            ]);
-        }
+        $complaint->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'urgent' => $request->urgent,
+            'status' => $request->status
+        ]);
+        return response()->json([
+            'message' => 'Done',
+            'data' => $complaint
+        ]);
     }
 
     /**

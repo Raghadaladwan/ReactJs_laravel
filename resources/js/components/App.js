@@ -17,43 +17,23 @@ class App extends React.Component {
     };
 
     render() {
-        console.log(this.state.cookieItem);
-        if (this.state.cookieItem === undefined) {
-            return (
-                <BrowserRouter>
-                    <div className="App">
-                        <Header cookieItem={this.state} />
-                        <Route
-                            exact
-                            path="/"
-                            component={Home}
-                            cookieItem={this.state}
-                        />
-                        <Route path="/register" component={Register} />
-                        <Route path="/login" component={Login} />
-                        <Footer />
-                    </div>
-                </BrowserRouter>
-            );
-        } else {
-            return (
-                <BrowserRouter>
-                    <div className="App">
-                        <Header />
-                        <Route
-                            exact
-                            path="/"
-                            component={Home}
-                            cookieItem={this.state}
-                        />
-                        <Route path="/register" component={Register} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/dashboard" component={Dashboard} />
-                        <Footer />
-                    </div>
-                </BrowserRouter>
-            );
-        }
+        return (
+            <BrowserRouter>
+                <div className="App">
+                    <Header cookieItem={this.state.cookieItem} />
+                    <Route
+                        exact
+                        path="/"
+                        component={Home}
+                        cookieItem={this.state}
+                    />
+                    <Route path="/register" component={Register} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Footer />
+                </div>
+            </BrowserRouter>
+        );
     }
 }
 

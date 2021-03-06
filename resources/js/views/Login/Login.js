@@ -6,9 +6,6 @@ class LoginForm extends Component {
     state = {
         email: "",
         password: "",
-        isLoading: false,
-        role: "",
-        user_id: "",
         token: "",
         errors: {},
     };
@@ -39,14 +36,9 @@ class LoginForm extends Component {
                 })
                 .then((response) => {
                     if (response.data.access_token !== "") {
-                        console.log("aftter Login");
                         cookie.save("isLoggedIn", response.data);
-                        this.props.history.push({
-                            pathname: "/dashboard",
-                            state: { token: response.data.access_token },
-                        });
-                            // window.location.reload();
-
+                        this.props.history.push("/");
+                        window.location.reload();
                     }
                 })
                 .catch((err) =>
@@ -59,93 +51,69 @@ class LoginForm extends Component {
     };
 
     render() {
-        // if (this.state.redirect) {
-        //     return (
-        //         // this.props.history.push("/loginpage");
-        //         <Redirect
-        //             to={{
-        //                 pathname: "/dashboard",
-        //                 state: {
-        //                     isLoading: this.state.isLoading,
-        //                     role: this.state.role,
-        //                     user_id: this.state.user_id,
-        //                     token: this.state.token,
-        //                 },
-        //             }}
-        //         />
-        //     );
-        // }
         const { onChange, loginSubmit } = this;
 
-            return (
-                <>
-                    <div>
-                        <div className="row mt-5">
-                            <div className="col-md-3 mx-auto">
-                                <form
-                                    className="card p-2"
-                                    onSubmit={loginSubmit}
+        return (
+            <>
+                <div>
+                    <div className="row mt-5">
+                        <div className="col-md-3 mx-auto">
+                            <form className="card p-2" onSubmit={loginSubmit}>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email address</label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        id="email"
+                                        name="email"
+                                        aria-describedby="emailHelp"
+                                        placeholder="Enter email"
+                                        value={this.state.email}
+                                        onChange={onChange}
+                                    ></input>
+                                </div>
+                                <div
+                                    className={
+                                        this.state.message_Email
+                                            ? "alert alert-dark"
+                                            : null
+                                    }
                                 >
-                                    <div className="form-group">
-                                        <label htmlFor="email">
-                                            Email address
-                                        </label>
-                                        <input
-                                            type="email"
-                                            className="form-control"
-                                            id="email"
-                                            name="email"
-                                            aria-describedby="emailHelp"
-                                            placeholder="Enter email"
-                                            value={this.state.email}
-                                            onChange={onChange}
-                                        ></input>
-                                    </div>
-                                    <div
-                                        className={
-                                            this.state.message_Email
-                                                ? "alert alert-dark"
-                                                : null
-                                        }
-                                    >
-                                        {this.state.message_Email}
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="password">
-                                            Password
-                                        </label>
-                                        <input
-                                            type="password"
-                                            className="form-control"
-                                            id="password"
-                                            name="password"
-                                            placeholder="Password"
-                                            onChange={onChange}
-                                        />
-                                    </div>
-                                    <div
-                                        className={
-                                            this.state.message_Password
-                                                ? "alert alert-dark"
-                                                : null
-                                        }
-                                    >
-                                        {this.state.message_Password}
-                                    </div>
+                                    {this.state.message_Email}
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        onChange={onChange}
+                                    />
+                                </div>
+                                <div
+                                    className={
+                                        this.state.message_Password
+                                            ? "alert alert-dark"
+                                            : null
+                                    }
+                                >
+                                    {this.state.message_Password}
+                                </div>
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                    >
-                                        Submit
-                                    </button>
-                                </form>
-                            </div>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                >
+                                    Submit
+                                </button>
+                            </form>
                         </div>
                     </div>
-                </>
-            );
-        
+                </div>
+            </>
+        );
     }
 }
 

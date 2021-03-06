@@ -1,18 +1,16 @@
+import { event } from "jquery";
 import React, { Component } from "react";
 import cookie from "react-cookies";
 
 class Dashboard extends Component {
     state = {
-        complaint: [],
-        role: "",
+        complaints: [],
         title: "",
         description: "",
         urgent: "1",
-        user_id: "",
     };
 
     componentDidMount() {
-        console.log(cookie.load("isLoggedIn"));
         fetch("http://127.0.0.1:8001/api/complaint", {
             method: "POST",
             mode: "cors",
@@ -26,9 +24,8 @@ class Dashboard extends Component {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Success:", data);
                 this.setState({
-                    complaint: data.data,
+                    complaints: data.data,
                     role: cookie.load("isLoggedIn").role,
                 });
             })
@@ -40,34 +37,45 @@ class Dashboard extends Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    addComplaint = (event) => {
-        event.preventDefault();
-        let newComplaint = {
-            title: event.target["title"].value,
-            description: event.target["description"].value,
-            urgent: event.target["urgent"].value,
-        };
-    };
+    UpdateComplaintStatus = (comp, In_status) => {
+        const updatedComplaint = this.state.complaints.filter(
+            (complaint) => complaint.id === comp.id
+        );
 
-    // Customer Can Update
-    UpdateComplaint = (event) => {
-        event.preventDefault();
-        const data = !this?.props?.status?.edit;
-        this.props.setStatus({
-            edit: data,
-        });
+        updatedComplaint[0].status = In_status;
+        this.setState({ ...this.state.complaints, updatedComplaint });
+
+        fetch(`http://127.0.0.1:8001/api/resolved/complaint/${comp.id}`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${
+                    cookie.load("isLoggedIn").access_token
+                }`,
+            },
+            cache: "default",
+            body: JSON.stringify({
+                title: updatedComplaint[0].title,
+                description: updatedComplaint[0].description,
+                urgent: updatedComplaint[0].urgent,
+                status: updatedComplaint[0].status,
+            }),
+        })
+            .then((response) => response.json())
+            .catch((error) => {
+                console.error("Error:", error);
+            });
     };
 
     handleRadioChange = (event) => {
-        console.log(event);
-        console.log(event.target.value);
         this.setState({
             urgent: event.target.value,
         });
     };
 
     renderTableData() {
-        return this.state.complaint.map((complaint, index) => {
+        return this.state.complaints.map((complaint, index) => {
             const { id, title, status, urgent, description } = complaint; //destructuring
             return (
                 <tr key={id}>
@@ -93,6 +101,9 @@ class Dashboard extends Component {
                     {this.state.role == "Admin" ? (
                         <td>
                             <button
+                                onClick={() =>
+                                    this.UpdateComplaintStatus(complaint, 2)
+                                }
                                 type="button"
                                 className="btn bg-success m-1"
                                 aria-label="Left Align"
@@ -100,6 +111,9 @@ class Dashboard extends Component {
                                 Solve
                             </button>
                             <button
+                                onClick={() =>
+                                    this.UpdateComplaintStatus(complaint, 3)
+                                }
                                 type="button"
                                 className="btn bg-danger m-1 "
                                 aria-label="Left Align"

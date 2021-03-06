@@ -3,7 +3,6 @@ import cookie from "react-cookies";
 
 import { Link } from "react-router-dom";
 class Header extends Component {
-
     signOut = () => {
         if (cookie.load("isLoggedIn") !== undefined) {
             cookie.remove("isLoggedIn");
@@ -11,29 +10,9 @@ class Header extends Component {
         }
     };
 
-    componentDidMount() {
-        if (cookie.load("isLoggedIn") === undefined) {
-            console.log(cookie.load("isLoggedIn"));
-            return false;
-        } else if (cookie.load("isLoggedIn" != null)) {
-            console.log("object");
-            console.log(cookie.load("isLoggedIn"));
-            axios
-                .get(
-                    `http://127.0.0.1:8001/api/auth/login/${cookie.load(
-                        "isLoggedIn"
-                    )}`
-                )
-                .then((response) => {
-                    this.setState({ userInfo: response.data }, () => {});
-                });
-        } else {
-            return false;
-        }
-    }
-
     render() {
-        if (cookie.load("isLoggedIn") === undefined) {
+        console.log(this.props.cookieItem);
+        if (this.props.cookieItem === undefined) {
             return (
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <a className="navbar-brand" href="#">

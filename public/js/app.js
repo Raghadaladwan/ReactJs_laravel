@@ -2100,50 +2100,28 @@ var App = /*#__PURE__*/function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      console.log(this.state.cookieItem);
-
-      if (this.state.cookieItem === undefined) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.BrowserRouter, {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-            className: "App",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Header_Header__WEBPACK_IMPORTED_MODULE_3__.default, {
-              cookieItem: this.state
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-              exact: true,
-              path: "/",
-              component: _Home_Home__WEBPACK_IMPORTED_MODULE_8__.default,
-              cookieItem: this.state
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-              path: "/register",
-              component: _views_Register_Register__WEBPACK_IMPORTED_MODULE_5__.default
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-              path: "/login",
-              component: _views_Login_Login__WEBPACK_IMPORTED_MODULE_6__.default
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Footer_Footer__WEBPACK_IMPORTED_MODULE_4__.default, {})]
-          })
-        });
-      } else {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.BrowserRouter, {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-            className: "App",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Header_Header__WEBPACK_IMPORTED_MODULE_3__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-              exact: true,
-              path: "/",
-              component: _Home_Home__WEBPACK_IMPORTED_MODULE_8__.default,
-              cookieItem: this.state
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-              path: "/register",
-              component: _views_Register_Register__WEBPACK_IMPORTED_MODULE_5__.default
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-              path: "/login",
-              component: _views_Login_Login__WEBPACK_IMPORTED_MODULE_6__.default
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-              path: "/dashboard",
-              component: _views_User_Dashboard__WEBPACK_IMPORTED_MODULE_7__.default
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Footer_Footer__WEBPACK_IMPORTED_MODULE_4__.default, {})]
-          })
-        });
-      }
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.BrowserRouter, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          className: "App",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Header_Header__WEBPACK_IMPORTED_MODULE_3__.default, {
+            cookieItem: this.state.cookieItem
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+            exact: true,
+            path: "/",
+            component: _Home_Home__WEBPACK_IMPORTED_MODULE_8__.default,
+            cookieItem: this.state
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+            path: "/register",
+            component: _views_Register_Register__WEBPACK_IMPORTED_MODULE_5__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+            path: "/login",
+            component: _views_Login_Login__WEBPACK_IMPORTED_MODULE_6__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+            path: "/dashboard",
+            component: _views_User_Dashboard__WEBPACK_IMPORTED_MODULE_7__.default
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Footer_Footer__WEBPACK_IMPORTED_MODULE_4__.default, {})]
+        })
+      });
     }
   }]);
 
@@ -2276,29 +2254,11 @@ var Header = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(Header, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      if (react_cookies__WEBPACK_IMPORTED_MODULE_1__.default.load("isLoggedIn") === undefined) {
-        console.log(react_cookies__WEBPACK_IMPORTED_MODULE_1__.default.load("isLoggedIn"));
-        return false;
-      } else if (react_cookies__WEBPACK_IMPORTED_MODULE_1__.default.load("isLoggedIn" != null)) {
-        console.log("object");
-        console.log(react_cookies__WEBPACK_IMPORTED_MODULE_1__.default.load("isLoggedIn"));
-        axios.get("http://127.0.0.1:8001/api/auth/login/".concat(react_cookies__WEBPACK_IMPORTED_MODULE_1__.default.load("isLoggedIn"))).then(function (response) {
-          _this2.setState({
-            userInfo: response.data
-          }, function () {});
-        });
-      } else {
-        return false;
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
-      if (react_cookies__WEBPACK_IMPORTED_MODULE_1__.default.load("isLoggedIn") === undefined) {
+      console.log(this.props.cookieItem);
+
+      if (this.props.cookieItem === undefined) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("nav", {
           className: "navbar navbar-expand-lg navbar-dark bg-dark",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
@@ -2508,9 +2468,6 @@ var LoginForm = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "state", {
       email: "",
       password: "",
-      isLoading: false,
-      role: "",
-      user_id: "",
       token: "",
       errors: {}
     });
@@ -2551,16 +2508,11 @@ var LoginForm = /*#__PURE__*/function (_Component) {
                   password: _this.state.password
                 }).then(function (response) {
                   if (response.data.access_token !== "") {
-                    console.log("aftter Login");
                     react_cookies__WEBPACK_IMPORTED_MODULE_2__.default.save("isLoggedIn", response.data);
 
-                    _this.props.history.push({
-                      pathname: "/dashboard",
-                      state: {
-                        token: response.data.access_token
-                      }
-                    }); // window.location.reload();
+                    _this.props.history.push("/");
 
+                    window.location.reload();
                   }
                 })["catch"](function (err) {
                   return _this.setState({
@@ -2591,22 +2543,6 @@ var LoginForm = /*#__PURE__*/function (_Component) {
   _createClass(LoginForm, [{
     key: "render",
     value: function render() {
-      // if (this.state.redirect) {
-      //     return (
-      //         // this.props.history.push("/loginpage");
-      //         <Redirect
-      //             to={{
-      //                 pathname: "/dashboard",
-      //                 state: {
-      //                     isLoading: this.state.isLoading,
-      //                     role: this.state.role,
-      //                     user_id: this.state.user_id,
-      //                     token: this.state.token,
-      //                 },
-      //             }}
-      //         />
-      //     );
-      // }
       var onChange = this.onChange,
           loginSubmit = this.loginSubmit;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
@@ -2957,9 +2893,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_cookies__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-cookies */ "./node_modules/react-cookies/build/cookie.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_cookies__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-cookies */ "./node_modules/react-cookies/build/cookie.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -2979,6 +2917,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3007,6 +2949,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var Dashboard = /*#__PURE__*/function (_Component) {
   _inherits(Dashboard, _Component);
 
@@ -3024,42 +2967,49 @@ var Dashboard = /*#__PURE__*/function (_Component) {
     _this = _super.call.apply(_super, [this].concat(args));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      complaint: [],
-      role: "",
+      complaints: [],
       title: "",
       description: "",
-      urgent: "1",
-      user_id: ""
+      urgent: "1"
     });
 
     _defineProperty(_assertThisInitialized(_this), "onChange", function (event) {
       _this.setState(_defineProperty({}, event.target.name, event.target.value));
     });
 
-    _defineProperty(_assertThisInitialized(_this), "addComplaint", function (event) {
-      event.preventDefault();
-      var newComplaint = {
-        title: event.target["title"].value,
-        description: event.target["description"].value,
-        urgent: event.target["urgent"].value
-      };
-    });
+    _defineProperty(_assertThisInitialized(_this), "UpdateComplaintStatus", function (comp, In_status) {
+      var updatedComplaint = _this.state.complaints.filter(function (complaint) {
+        return complaint.id === comp.id;
+      });
 
-    _defineProperty(_assertThisInitialized(_this), "UpdateComplaint", function (event) {
-      var _assertThisInitialize, _assertThisInitialize2, _assertThisInitialize3;
+      updatedComplaint[0].status = In_status;
 
-      event.preventDefault();
-      var data = !((_assertThisInitialize = _assertThisInitialized(_this)) !== null && _assertThisInitialize !== void 0 && (_assertThisInitialize2 = _assertThisInitialize.props) !== null && _assertThisInitialize2 !== void 0 && (_assertThisInitialize3 = _assertThisInitialize2.status) !== null && _assertThisInitialize3 !== void 0 && _assertThisInitialize3.edit);
+      _this.setState(_objectSpread(_objectSpread({}, _this.state.complaints), {}, {
+        updatedComplaint: updatedComplaint
+      }));
 
-      _this.props.setStatus({
-        edit: data
+      fetch("http://127.0.0.1:8001/api/resolved/complaint/".concat(comp.id), {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer ".concat(react_cookies__WEBPACK_IMPORTED_MODULE_3__.default.load("isLoggedIn").access_token)
+        },
+        cache: "default",
+        body: JSON.stringify({
+          title: updatedComplaint[0].title,
+          description: updatedComplaint[0].description,
+          urgent: updatedComplaint[0].urgent,
+          status: updatedComplaint[0].status
+        })
+      }).then(function (response) {
+        return response.json();
+      })["catch"](function (error) {
+        console.error("Error:", error);
       });
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleRadioChange", function (event) {
-      console.log(event);
-      console.log(event.target.value);
-
       _this.setState({
         urgent: event.target.value
       });
@@ -3098,7 +3048,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
                     mode: "cors",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Bearer ".concat(react_cookies__WEBPACK_IMPORTED_MODULE_2__.default.load("isLoggedIn").access_token)
+                      Authorization: "Bearer ".concat(react_cookies__WEBPACK_IMPORTED_MODULE_3__.default.load("isLoggedIn").access_token)
                     },
                     cache: "default",
                     body: JSON.stringify({
@@ -3144,23 +3094,20 @@ var Dashboard = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      console.log(react_cookies__WEBPACK_IMPORTED_MODULE_2__.default.load("isLoggedIn"));
       fetch("http://127.0.0.1:8001/api/complaint", {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer ".concat(react_cookies__WEBPACK_IMPORTED_MODULE_2__.default.load("isLoggedIn").access_token)
+          Authorization: "Bearer ".concat(react_cookies__WEBPACK_IMPORTED_MODULE_3__.default.load("isLoggedIn").access_token)
         },
         cache: "default"
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        console.log("Success:", data);
-
         _this2.setState({
-          complaint: data.data,
-          role: react_cookies__WEBPACK_IMPORTED_MODULE_2__.default.load("isLoggedIn").role
+          complaints: data.data,
+          role: react_cookies__WEBPACK_IMPORTED_MODULE_3__.default.load("isLoggedIn").role
         });
       })["catch"](function (error) {
         console.error("Error:", error);
@@ -3171,41 +3118,47 @@ var Dashboard = /*#__PURE__*/function (_Component) {
     value: function renderTableData() {
       var _this3 = this;
 
-      return this.state.complaint.map(function (complaint, index) {
+      return this.state.complaints.map(function (complaint, index) {
         var id = complaint.id,
             title = complaint.title,
             status = complaint.status,
             urgent = complaint.urgent,
             description = complaint.description; //destructuring
 
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: index + 1
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: title
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: description
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             children: status == 1 ? "pending" : status == 2 ? "resolved" : "dismissed"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
             style: {
               color: urgent == "1" ? "red" : "none"
             },
             children: urgent == "1" ? "Urgent" : "Can wait"
-          }), _this3.state.role == "Admin" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+          }), _this3.state.role == "Admin" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              onClick: function onClick() {
+                return _this3.UpdateComplaintStatus(complaint, 2);
+              },
               type: "button",
               className: "btn bg-success m-1",
               "aria-label": "Left Align",
               children: "Solve"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              onClick: function onClick() {
+                return _this3.UpdateComplaintStatus(complaint, 3);
+              },
               type: "button",
               className: "btn bg-danger m-1 ",
               "aria-label": "Left Align",
               children: "Dismissed"
             })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "btn bg-primary",
               "aria-label": "Left Align",
               children: "Edit"
@@ -3219,7 +3172,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
     value: function renderTableHeader() {
       var header = Object.keys(this.state.complaint);
       return header.map(function (key, index) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
           scope: "col",
           children: key.toUpperCase()
         }, index);
@@ -3233,56 +3186,56 @@ var Dashboard = /*#__PURE__*/function (_Component) {
           onChange = this.onChange,
           handleRadioChange = this.handleRadioChange,
           onSubmit = this.onSubmit;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        children: this.state.role == "Admin" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        children: this.state.role == "Admin" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "container",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: " row h-150 justify-content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
               className: "pt-5",
               children: "This is all your complaint"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "row ",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
               className: "col ",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("table", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("table", {
                 className: "table table-striped",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
                   children: this.renderTableData()
                 })
               })
             })
           })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "pt-5 pl-5",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
               children: "This is all your complaint"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "row pl-5 ",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
               className: "col col-lg-7",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("table", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("table", {
                 className: "table table-striped",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
                   children: this.renderTableData()
                 })
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
               className: "col col-lg-4",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("form", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("form", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
                     className: "card p-2",
                     onSubmit: onSubmit,
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                       className: "form-group",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
                         htmlFor: "title",
                         children: "Complaint title"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                         type: "text",
                         className: "form-control",
                         id: "title",
@@ -3291,17 +3244,17 @@ var Dashboard = /*#__PURE__*/function (_Component) {
                         placeholder: "Enter title",
                         value: this.state.title,
                         onChange: onChange
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                         className: this.state.message_title ? "alert alert-dark" : null,
                         children: this.state.message_title
                       })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                       className: "mb-3",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
                         htmlFor: "description",
                         className: "form-label",
                         children: "Tell Us More"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("textarea", {
                         type: "text",
                         className: "form-control",
                         id: "description",
@@ -3311,18 +3264,18 @@ var Dashboard = /*#__PURE__*/function (_Component) {
                         value: this.state.description,
                         onChange: onChange
                       })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                       className: this.state.message_description ? "alert alert-dark" : null,
                       children: this.state.message_description
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                       className: "form-group container",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                         className: "form-row ",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                           className: "col-3",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                             className: "form-check ",
-                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                               className: "form-check-input",
                               type: "radio",
                               name: "urgent",
@@ -3330,17 +3283,17 @@ var Dashboard = /*#__PURE__*/function (_Component) {
                               value: "1",
                               checked: this.state.urgent === "1",
                               onChange: handleRadioChange
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
                               className: "form-check-label",
                               htmlFor: "Radios1",
                               children: "Urgent"
                             })]
                           })
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                           className: "col-3",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                             className: "form-check",
-                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                               className: "form-check-input",
                               type: "radio",
                               name: "urgent",
@@ -3348,7 +3301,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
                               value: "2",
                               checked: this.state.urgent === "2",
                               onChange: handleRadioChange
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
                               className: "form-check-label",
                               htmlFor: "Radios2",
                               children: "Unurgent"
@@ -3356,7 +3309,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
                           })
                         })]
                       })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                       type: "submit",
                       className: "btn btn-primary",
                       children: "Submit"
@@ -3372,7 +3325,7 @@ var Dashboard = /*#__PURE__*/function (_Component) {
   }]);
 
   return Dashboard;
-}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_2__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dashboard);
 
