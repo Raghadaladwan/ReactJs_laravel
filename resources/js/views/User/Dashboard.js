@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import cookie from "react-cookies";
 
 class Dashboard extends Component {
     state = {
@@ -7,40 +8,33 @@ class Dashboard extends Component {
         title: "",
         description: "",
         urgent: "1",
-        user_id:''
+        user_id: "",
     };
 
     componentDidMount() {
-        axios
-            .post("http://127.0.0.1:8001/api/complaint", {
-                id: this.props.location.state.user_id,
-                role: this.props.location.state.role,
-                user_id:this.props.location.state.user_id
-            })
-            .then((response) => {
+        console.log(cookie.load("isLoggedIn"));
+        fetch("http://127.0.0.1:8001/api/complaint", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${
+                    cookie.load("isLoggedIn").access_token
+                }`,
+            },
+            cache: "default",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Success:", data);
                 this.setState({
-                    complaint: response.data.data,
-                    role: this.props.location.state.role,
+                    complaint: data.data,
+                    role: cookie.load("isLoggedIn").role,
                 });
             })
-            .catch((err) => console.log(err.response.data.errors));
-
-        // axios
-        // .get("http://127.0.0.1:8001/api/complaint", { headers: { Authorization: `Bearer ${this.location.state.token}` } })
-        // .then((res) => {
-        //   console.log("hello" + res);
-        //   try {
-        //     dispatch({
-        //       type: FETCH_PRODUCTS,
-        //       payload: res.data// Dummy data
-        //     });
-        //     console.log("payload");
-        //     console.log(payload);
-        //   } catch (err) {
-        //     console.log("error" + err);
-        //     console.log(res.data);
-        //   }
-        // });
+            .catch((error) => {
+                console.error("Error:", error);
+            });
     }
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
@@ -55,11 +49,17 @@ class Dashboard extends Component {
         };
     };
 
+    // Customer Can Update
     UpdateComplaint = (event) => {
         event.preventDefault();
+        const data = !this?.props?.status?.edit;
+        this.props.setStatus({
+            edit: data,
+        });
     };
 
     handleRadioChange = (event) => {
+        console.log(event);
         console.log(event.target.value);
         this.setState({
             urgent: event.target.value,
@@ -68,11 +68,12 @@ class Dashboard extends Component {
 
     renderTableData() {
         return this.state.complaint.map((complaint, index) => {
-            const { id, title, status, urgent } = complaint; //destructuring
+            const { id, title, status, urgent, description } = complaint; //destructuring
             return (
                 <tr key={id}>
                     <td>{index + 1}</td>
                     <td>{title}</td>
+                    <td>{description}</td>
 
                     <td>
                         {status == 1
@@ -109,7 +110,6 @@ class Dashboard extends Component {
                     ) : (
                         <td>
                             <button
-                                type="button"
                                 className="btn bg-primary"
                                 aria-label="Left Align"
                             >
@@ -126,7 +126,7 @@ class Dashboard extends Component {
         event.preventDefault();
 
         const update = {
-            id:this.state.user_id,
+            id: this.state.user_id,
             title: this.state.title,
             description: this.state.description,
             urgent: this.state.urgent,
@@ -143,18 +143,37 @@ class Dashboard extends Component {
             });
         }
         if (update.title !== "" && update.description !== "") {
-            await axios
-                .post("http://127.0.0.1:8001/api/store/complaint", {
-                    update,
+            fetch("http://127.0.0.1:8001/api/store/complaint", {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${
+                        cookie.load("isLoggedIn").access_token
+                    }`,
+                },
+                cache: "default",
+                body: JSON.stringify({
+                    title: this.state.title,
+                    description: this.state.description,
+                    urgent: this.state.urgent,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    this.setState({
+                        complaint: [...this.state.complaint, data.data],
+                    });
                 })
-                .then((response) => {
-                    this.setState((prvState) => ({
-                        complaint: [...prvState.response.data],
-                    }));
-                })
-                .catch((err) =>
-                    this.setState({ errors: err.response.data.errors })
-                );
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+
+            this.setState({
+                title: "",
+                description: "",
+                urgent: "1",
+            });
         }
     };
 
@@ -239,7 +258,7 @@ class Dashboard extends Component {
 
                                             <div className="mb-3">
                                                 <label
-                                                    htmlfor="description"
+                                                    htmlFor="description"
                                                     className="form-label"
                                                 >
                                                     Tell Us More

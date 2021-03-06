@@ -18,12 +18,14 @@ class ComplaintController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->role === "Admin") {
-            $all = Complaint::select('id', 'title', 'status', 'urgent')->paginate(10);
+        $user = auth('api')->user();
+
+        if ($user->role === "Admin") {
+            $all = Complaint::select('id', 'title', 'status', 'urgent', 'description')->paginate(10);
             return $all;
-        } else if ($request->role === "Customer") {
-            $myComplaint = Complaint::select('id', 'title', 'status', 'urgent')
-                ->where('user_id', $request->id)
+        } else if ($user->role === "Customer") {
+            $myComplaint = Complaint::select('id', 'title', 'status', 'urgent', 'description')
+                ->where('user_id', $user->id)
                 ->paginate(10);
             return $myComplaint;
         }
@@ -37,8 +39,9 @@ class ComplaintController extends Controller
      */
     public function store(Request $request)
     {
-        // $user = auth('api')->user();
-    
+
+        $user = auth('api')->user();
+
         Validator::make($request->all(), [
             'title' =>    'required',
             'description' =>    'required',
@@ -52,12 +55,13 @@ class ComplaintController extends Controller
         }
 
         $newComplaint = [
-            'user_id' => $request->id,
+            'user_id' => $user->id,
             'title' => $request['title'],
             'description' => $request['description'],
             'urgent' => $request['urgent'],
             'status' => "1",
         ];
+
 
         $addedComplaint =  Complaint::create($newComplaint);
 
